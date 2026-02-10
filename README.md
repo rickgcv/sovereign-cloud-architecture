@@ -47,7 +47,7 @@ The solution uses a hub-and-spoke architecture integrating the following compone
 - **Identity verification service** – Provides cryptographic identity for workloads to eliminate shared secrets.
 
 
-![Architecture](images/sovereign-cloud.png)
+![Architecture](images/sovereign-cloud-overview.png)
 
 
 ## Requirements
