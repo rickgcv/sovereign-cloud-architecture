@@ -54,9 +54,9 @@ The solution uses a hub-and-spoke architecture integrating the following compone
 
 ### Minimum hardware requirements
 
-- **Bare metal compute nodes** – Required for worker nodes to support both VMs and containers
+- **Bare metal compute nodes** – Required for worker nodes to support both VMs and containers. Major hardware providers like Dell, HP, IBM and Lenovo are certified for these deployments.
 
-- **Trusted hardware** – Processors supporting Trusted Execution Environments (TEE) for confidential computing
+- **Trusted hardware** – Processors with solutions supporting Trusted Execution Environments (TEE) for confidential computing, like AMD SEV-SNP or Intel SGX/TDX.
 
 ### Minimum software requirements
 
