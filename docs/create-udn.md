@@ -1,4 +1,4 @@
-To push a UserDefinedNetwork (UDN) CR to a managed cluster from RHACM, use a ConfigurationPolicy that embeds the UDN YAML as raw YAML. RHACM replicates it automatically to the target cluster.
+To push a User Defined Network (UDN) CR to a managed cluster from RHACM, use a ConfigurationPolicy that embeds the UDN YAML as raw YAML. RHACM replicates it automatically to the target cluster.
 
 Policies enforce creation; ACM handles templating for per-cluster variabless like CIDR.
 
