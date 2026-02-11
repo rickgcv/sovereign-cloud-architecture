@@ -3,36 +3,31 @@ Design and deploy a sovereign cloud platform to ensure control over data locatio
 
 ## Detailed description
 
-This architecture provides a platform to run workloads on heterogeneous infrastructure (on-premises, hybrid, or multi-cloud) while ensuring data remains within specific geographic and legal boundaries. It utilizes open source software to prevent vendor lock-in and implements multi-tenancy to ensure data isolation between customers and providers. The platform caters for the following use cases:
+Digital sovereignty is based on the 4 pillars below:
 
-1. Sovereign Cluster as a Service: Allow customers to deploy their clusters establishing a strict operational and physical boundary between the platform provider and the tenants.
-
-2. Sovereign Virtual Machine as a Service: Similar to the previous point but at the virtual machine level.
-
-3. Observability, auditability and cost control: Implement and automate the tools and processes required to continuously audit, monitor, and prove the compliance of the sovereign platform from build-time to runtime, as well as giving customers total visibility about their spend.
-   
-4. Technology and operational autonomy: Implement controls to ensure the platform is operationally autonomous, resilient, and built from trusted, verifiable software components.
-
-5. Sovereign data: Implement advanced cryptographic controls for tenant clusters and provider workloads to ensure data confidentiality at-rest, in-use, and during recovery.
-
-
-
-### Key features
-
-Digital sovereignty is based on 4 pillars. These are mentioned below together with how this platform helps establishing them.
-
-- **Data sovereignty** – Control data location and privacy to prevent unauthorized cross-border access. The platform implements this using Zero Trust security and confidential computing.
-
-- **Technical Sovereignty** - Running workloads without dependence on a provider’s infrastructure or software, and protected from all extra-territorial interference and scrutiny. The platform can be deployed on multi-cloud and hybrid cloud to avoid vendor lock-in.
+- **Technical Sovereignty** - Running workloads without dependence on a provider’s infrastructure or software, and protected from all extra-territorial interference and scrutiny.
 
 - **Operational sovereignty** – Visibility and control over provider operations from provisioning and performance management, to monitoring of physical and digital access, to the infrastructure. This solution leverages separation of control planes and data planes using virtualized control planes for each cluster.
 
 - **Assurance sovereignty** – Ability to independently verify and assure the integrity, security, and reliability of digital systems and processes including resilience of critical services. This platform is highly available and resilient and allows to quickly move workloads to different locations. It also ensures integrity by creating a trusted software supply chain.
 
+- **Data sovereignty** – Control data location and privacy to prevent unauthorized cross-border access. The platform implements this using Zero Trust security and confidential computing.
 
+## Key features
 
+This architecture describes and shows how to implement a platform to run workloads on heterogeneous infrastructure (on-premises, hybrid, or multi-cloud) while ensuring data remains within specific geographic and legal boundaries. It utilizes open source software to prevent vendor lock-in and implements multi-tenancy to ensure data isolation between customers and providers. The platform caters for the following use cases:
 
-### Architecture overview
+1. Sovereign Cluster as a Service: Allow customers to deploy their clusters establishing a strict operational and physical boundary between the platform provider and the tenants. This helps achieve technical and operational sovereignty.
+
+2. Sovereign Virtual Machine as a Service: Similar to the previous point but at the virtual machine level.
+
+3. Observability, auditability and cost control: Implement and automate the tools and processes required to continuously audit, monitor, and prove the compliance of the sovereign platform from build-time to runtime, as well as giving customers total visibility about their spend. This helps achieve operational sovereignty.
+   
+4. Technology and operational autonomy: Implement controls to ensure the platform is operationally autonomous, resilient, and built from trusted, verifiable software components. This helps achieve technical and assurance sovereignty.
+
+5. Encrypted data control: Implement advanced cryptographic controls for tenant clusters to ensure data confidentiality at-rest, in-use, and in transit. This helps achieve data sovereignty.
+
+## Architecture overview
 
 The solution uses a hub-and-spoke architecture integrating the following components:
 
