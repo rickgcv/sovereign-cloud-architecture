@@ -93,10 +93,9 @@ In the case of disconnected environments, this is how to deploy the management c
 
 **Zero Trust concepts implementation**
 
-1. Install and configure Red Hat Build of Trustee operator.
-2. Install and configure Red Hat OpenSHift Sandboxed Containers opeerator.
-3. Install Workload Identity Manager.
-4. Deploy Red Hat Trusted Software Supply Chain.
+1. Set up the platform to be able to deploy [confidential containers](https://docs.redhat.com/en/documentation/openshift_sandboxed_containers/1.11/html-single/deploying_confidential_containers/index).
+2. Install and configure [Workload Identity Manager](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/security_and_compliance/zero-trust-workload-identity-manager).
+3. Deploy Red Hat Trusted Software Supply Chain.
 
 
 
