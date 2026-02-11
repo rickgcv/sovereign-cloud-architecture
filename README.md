@@ -17,15 +17,15 @@ Digital sovereignty is based on the 4 pillars below:
 
 This architecture describes and shows how to implement a platform to run workloads on heterogeneous infrastructure (on-premises, hybrid, or multi-cloud) while ensuring data remains within specific geographic and legal boundaries. It utilizes open source software to prevent vendor lock-in and implements multi-tenancy to ensure data isolation between customers and providers. The platform caters for the following use cases:
 
-1. Sovereign Cluster as a Service: Allow customers to deploy their clusters establishing a strict operational and physical boundary between the platform provider and the tenants. This helps achieve technical and operational sovereignty.
+1. **Sovereign Cluster as a Service**: Allow customers to deploy their clusters establishing a strict operational and physical boundary between the platform provider and the tenants. This helps achieve technical and operational sovereignty.
 
-2. Sovereign Virtual Machine as a Service: Similar to the previous point but at the virtual machine level.
+2. **Sovereign Virtual Machine as a Service**: Similar to the previous point but at the virtual machine level.
 
-3. Observability, auditability and cost control: Implement and automate the tools and processes required to continuously audit, monitor, and prove the compliance of the sovereign platform from build-time to runtime, as well as giving customers total visibility about their spend. This helps achieve operational sovereignty.
+3. **Observability, auditability and cost control**: Implement and automate the tools and processes required to continuously audit, monitor, and prove the compliance of the sovereign platform from build-time to runtime, as well as giving customers total visibility about their spend. This helps achieve operational sovereignty.
    
-4. Technology and operational autonomy: Implement controls to ensure the platform is operationally autonomous, resilient, and built from trusted, verifiable software components. This helps achieve technical and assurance sovereignty.
+4. **Technology and operational autonomy**: Implement controls to ensure the platform is operationally autonomous, resilient, and built from trusted, verifiable software components. This helps achieve technical and assurance sovereignty.
 
-5. Encrypted data control: Implement advanced cryptographic controls for tenant clusters to ensure data confidentiality at-rest, in-use, and in transit. This helps achieve data sovereignty.
+5. **Encrypted data control**: Implement advanced cryptographic controls for tenant clusters to ensure data confidentiality at-rest, in-use, and in transit. This helps achieve data sovereignty.
 
 ## Architecture overview
 
@@ -75,7 +75,7 @@ The solution uses a hub-and-spoke architecture integrating the following compone
 
 For a standard implementation, deploy a management cluster to act as the central hub:
 
-1. Deploy Red Hat Advanced Cluster Management on the management cluster to govern managed clusters.
+1. [Deploy Red Hat Advanced Cluster Management](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.15/html/install/index) on the management cluster to govern managed clusters.
 
 2. Implement Virtual Control Planes on the management cluster using Red Hat OpenShift Virtualization. Each managed cluster's control plane should run on its own dedicated virtual machine to isolate it from the data plane.
 
