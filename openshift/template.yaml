@@ -59,6 +59,15 @@ objects:
       name: ${APPLICATION_NAME}
       labels:
         app: ${APPLICATION_NAME}
+      annotations:
+        image.openshift.io/triggers: |
+          [
+            {
+              "from": { "kind": "ImageStreamTag", "name": "${APPLICATION_NAME}:latest" },
+              "fieldPath": "spec.template.spec.containers[?(@.name==\"${APPLICATION_NAME}\")].image",
+              "paused": false
+            }
+          ]
     spec:
       replicas: 1
       selector:
@@ -71,10 +80,11 @@ objects:
         spec:
           securityContext:
             runAsNonRoot: true
-            runAsUser: 101
+            runAsUser: 1001030000
           containers:
             - name: ${APPLICATION_NAME}
               image: image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/${APPLICATION_NAME}:latest
+              # ^ set by image stream trigger after build
               imagePullPolicy: Always
               ports:
                 - containerPort: 8080
