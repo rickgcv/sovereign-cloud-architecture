@@ -15,6 +15,9 @@ parameters:
     value: "main"
   - name: APPLICATION_NAME
     value: "sovereign-cloud-website"
+  - name: NAMESPACE
+    value: "sovereign-cloud-docs"
+    description: "Project/namespace where the app is deployed (used for internal image reference)"
 objects:
   - apiVersion: image.openshift.io/v1
     kind: ImageStream
@@ -71,7 +74,7 @@ objects:
             runAsUser: 101
           containers:
             - name: ${APPLICATION_NAME}
-              image: ${APPLICATION_NAME}:latest
+              image: image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/${APPLICATION_NAME}:latest
               imagePullPolicy: Always
               ports:
                 - containerPort: 8080

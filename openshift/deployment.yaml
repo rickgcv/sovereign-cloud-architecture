@@ -19,7 +19,8 @@ spec:
         runAsUser: 101
       containers:
         - name: sovereign-cloud-website
-          image: sovereign-cloud-website:latest
+          # Use full internal registry path so the cluster pulls from the built image, not Docker Hub
+          image: image-registry.openshift-image-registry.svc:5000/sovereign-cloud-docs/sovereign-cloud-website:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
