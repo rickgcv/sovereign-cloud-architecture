@@ -83,17 +83,9 @@ For a standard implementation, deploy a management cluster to act as the central
 
 4. [Create a User Defined Network (UDN)](https://github.com/rickgcv/sovereign-cloud-architecture/blob/main/docs/create-udn.md) per managed cluster to ensure network separation. 
 
-In the case of disconnected environments, this is how to deploy the management cluster:
-
-1. Establish a landing zone (low trust zone) with a bastion host.
-
-2. Configure the bastion host with Red Hat Enterprise Linux and Ansible Core.
-
-3. Use Ansible playbooks to mirror repositories from Red Hat Quay and bootstrap the management cluster deployment into the high trust zone.
-
 **Zero Trust concepts implementation**
 
-1. Set up the platform to be able to deploy [confidential containers](https://docs.redhat.com/en/documentation/openshift_sandboxed_containers/1.11/html-single/deploying_confidential_containers/index).
+1. Set up the platform to be able to deploy [confidential containers](https://interact.redhat.com/share/wjZnZb2avHnp8k0hwjFe).
 2. Install and configure [Workload Identity Manager](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/security_and_compliance/zero-trust-workload-identity-manager).
 3. Deploy Red Hat Trusted Software Supply Chain.
 
