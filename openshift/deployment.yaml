@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sovereign-cloud-website
+  labels:
+    app: sovereign-cloud-website
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sovereign-cloud-website
+  template:
+    metadata:
+      labels:
+        app: sovereign-cloud-website
+    spec:
+      containers:
+        - name: sovereign-cloud-website
+          image: sovereign-cloud-website:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+      restartPolicy: Always

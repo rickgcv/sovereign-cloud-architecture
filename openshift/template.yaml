@@ -1,0 +1,128 @@
+# All-in-one template for Sovereign Cloud Architecture website
+# Usage: oc process -f template.yaml | oc apply -f -
+# Or create namespace first: oc new-project sovereign-cloud-docs && oc process -f template.yaml | oc apply -f -
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: sovereign-cloud-website
+  annotations:
+    description: "Deploys the Sovereign Cloud Architecture solution website (static site served by nginx)."
+    tags: "sovereign-cloud,nginx,static"
+parameters:
+  - name: GIT_URI
+    value: "https://github.com/rickgcv/sovereign-cloud-architecture.git"
+  - name: GIT_REF
+    value: "main"
+  - name: APPLICATION_NAME
+    value: "sovereign-cloud-website"
+objects:
+  - apiVersion: image.openshift.io/v1
+    kind: ImageStream
+    metadata:
+      name: ${APPLICATION_NAME}
+      labels:
+        app: ${APPLICATION_NAME}
+    spec:
+      lookupPolicy:
+        local: false
+
+  - apiVersion: build.openshift.io/v1
+    kind: BuildConfig
+    metadata:
+      name: ${APPLICATION_NAME}
+      labels:
+        app: ${APPLICATION_NAME}
+    spec:
+      runPolicy: Serial
+      source:
+        type: Git
+        git:
+          uri: ${GIT_URI}
+          ref: ${GIT_REF}
+        contextDir: /
+      strategy:
+        type: Docker
+        dockerStrategy:
+          dockerfilePath: Dockerfile
+      output:
+        to:
+          kind: ImageStreamTag
+          name: ${APPLICATION_NAME}:latest
+      resources: {}
+
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: ${APPLICATION_NAME}
+      labels:
+        app: ${APPLICATION_NAME}
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: ${APPLICATION_NAME}
+      template:
+        metadata:
+          labels:
+            app: ${APPLICATION_NAME}
+        spec:
+          containers:
+            - name: ${APPLICATION_NAME}
+              image: ${APPLICATION_NAME}:latest
+              imagePullPolicy: Always
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  cpu: 200m
+                  memory: 128Mi
+              livenessProbe:
+                httpGet:
+                  path: /
+                  port: 8080
+                initialDelaySeconds: 10
+                periodSeconds: 10
+              readinessProbe:
+                httpGet:
+                  path: /
+                  port: 8080
+                initialDelaySeconds: 5
+                periodSeconds: 5
+          restartPolicy: Always
+
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: ${APPLICATION_NAME}
+      labels:
+        app: ${APPLICATION_NAME}
+    spec:
+      ports:
+        - port: 8080
+          targetPort: 8080
+          protocol: TCP
+          name: http
+      selector:
+        app: ${APPLICATION_NAME}
+      type: ClusterIP
+
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      name: ${APPLICATION_NAME}
+      labels:
+        app: ${APPLICATION_NAME}
+    spec:
+      to:
+        kind: Service
+        name: ${APPLICATION_NAME}
+        weight: 100
+      port:
+        targetPort: http
+      tls:
+        termination: edge
+      wildcardPolicy: None
