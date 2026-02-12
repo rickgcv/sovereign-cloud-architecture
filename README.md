@@ -77,7 +77,7 @@ For a standard implementation, deploy a management cluster to act as the central
 
 1. [Deploy Red Hat Advanced Cluster Management](docs/deploy-rhacm.md) on the management cluster to govern managed clusters.
 
-2. Implement Virtual Control Planes on the management cluster using Red Hat OpenShift Virtualization. Each managed cluster's control plane should run on its own dedicated virtual machine to isolate it from the data plane.
+2. [Implement Virtual Control Planes](docs/deploy-virtual-control-planes.md) on the management cluster using Red Hat OpenShift Virtualization. Each managed cluster's control plane runs on its own dedicated virtual machine to isolate it from the data plane.
 
 3. [Deploy worker nodes on bare metal in the managed clusters](docs/deploy-bare-metal-workers-rhacm.md) to host the actual application workloads.
 
