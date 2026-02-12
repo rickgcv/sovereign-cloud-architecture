@@ -79,7 +79,7 @@ For a standard implementation, deploy a management cluster to act as the central
 
 2. Implement Virtual Control Planes on the management cluster using Red Hat OpenShift Virtualization. Each managed cluster's control plane should run on its own dedicated virtual machine to isolate it from the data plane.
 
-3. Deploy worker nodes on bare metal in the managed clusters to host the actual application workloads.
+3. [Deploy worker nodes on bare metal in the managed clusters](docs/deploy-bare-metal-workers-rhacm.md) to host the actual application workloads.
 
 4. [Create a User Defined Network (UDN)](https://github.com/rickgcv/sovereign-cloud-architecture/blob/main/docs/create-udn.md) per managed cluster to ensure network separation. 
 
