@@ -118,7 +118,7 @@ oc process -f openshift/template.yaml \
 
 - **Build fails** — Ensure the cluster can reach the Git URI. For private repos, add a build secret and reference it in the BuildConfig. If the base image `nginxinc/nginx-unprivileged:1.25-alpine` cannot be pulled, use the alternative Dockerfile: in BuildConfig set `dockerStrategy.dockerfilePath` to `Dockerfile.nginx-alpine` and ensure the repo has that file (and update the nginx config for port 8080 if needed).
 
-- **ImagePullBackOff** — If the Deployment was created before the first build finished, the image may not exist yet. Wait for the build to complete or trigger a new build and wait for the rollout.
+- **ImagePullBackOff** — The Deployment must pull the image from the cluster’s internal registry, not Docker Hub. The manifests use the full image path `image-registry.openshift-image-registry.svc:5000/<namespace>/sovereign-cloud-website:latest`. Ensure (1) the build has run and succeeded (`oc start-build sovereign-cloud-website --follow`), (2) the image exists in the internal registry (`oc get is sovereign-cloud-website`), and (3) the Deployment’s `image` field uses that full path (and the namespace matches your project). If you used `sovereign-cloud-website:latest` alone, the cluster would try Docker Hub and fail; re-apply the updated deployment.yaml or template.
 
 - **404 on refresh** — The site is static; nginx is configured so `/` serves `index.html`. Subpaths like `/deployment.html` work. If you use a different base path, adjust nginx config and rebuild.
 
