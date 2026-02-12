@@ -4,6 +4,17 @@ metadata:
   name: sovereign-cloud-website
   labels:
     app: sovereign-cloud-website
+  annotations:
+    # When the build pushes to ImageStream sovereign-cloud-website:latest, this trigger
+    # updates the Deployment with the correct image (avoids ImagePullBackOff from Docker Hub)
+    image.openshift.io/triggers: |
+      [
+        {
+          "from": { "kind": "ImageStreamTag", "name": "sovereign-cloud-website:latest" },
+          "fieldPath": "spec.template.spec.containers[?(@.name==\"sovereign-cloud-website\")].image",
+          "paused": false
+        }
+      ]
 spec:
   replicas: 1
   selector:
@@ -14,12 +25,13 @@ spec:
       labels:
         app: sovereign-cloud-website
     spec:
+      # restricted-v2 SCC requires runAsUser in range [1001030000, 1001039999]; image has world-readable files
       securityContext:
         runAsNonRoot: true
-        runAsUser: 101
+        runAsUser: 1001030000
       containers:
         - name: sovereign-cloud-website
-          # Use full internal registry path so the cluster pulls from the built image, not Docker Hub
+          # Set by image stream trigger after build; placeholder until first successful build
           image: image-registry.openshift-image-registry.svc:5000/sovereign-cloud-docs/sovereign-cloud-website:latest
           imagePullPolicy: Always
           ports:

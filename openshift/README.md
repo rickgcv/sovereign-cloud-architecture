@@ -24,11 +24,11 @@ oc new-project sovereign-cloud-docs
 # Process and apply the template (uses default Git URI and ref)
 oc process -f openshift/template.yaml | oc apply -f -
 
-# Trigger the first build (template creates BuildConfig; build starts automatically or trigger manually)
+# Important: run the build first so the image exists (avoids ImagePullBackOff)
 oc start-build sovereign-cloud-website --follow
 ```
 
-When the build completes, the Deployment will roll out. Get the public URL:
+When the build completes, the Deployment’s image stream trigger will set the image and the pod should start. Get the public URL:
 
 ```bash
 oc get route sovereign-cloud-website -o jsonpath='https://{.spec.host}'
@@ -118,7 +118,7 @@ oc process -f openshift/template.yaml \
 
 - **Build fails** — Ensure the cluster can reach the Git URI. For private repos, add a build secret and reference it in the BuildConfig. If the base image `nginxinc/nginx-unprivileged:1.25-alpine` cannot be pulled, use the alternative Dockerfile: in BuildConfig set `dockerStrategy.dockerfilePath` to `Dockerfile.nginx-alpine` and ensure the repo has that file (and update the nginx config for port 8080 if needed).
 
-- **ImagePullBackOff** — The Deployment must pull the image from the cluster’s internal registry, not Docker Hub. The manifests use the full image path `image-registry.openshift-image-registry.svc:5000/<namespace>/sovereign-cloud-website:latest`. Ensure (1) the build has run and succeeded (`oc start-build sovereign-cloud-website --follow`), (2) the image exists in the internal registry (`oc get is sovereign-cloud-website`), and (3) the Deployment’s `image` field uses that full path (and the namespace matches your project). If you used `sovereign-cloud-website:latest` alone, the cluster would try Docker Hub and fail; re-apply the updated deployment.yaml or template.
+- **ImagePullBackOff** — The image does not exist in the cluster yet. **Run the build first**, then create or update the Deployment. See **[DEPLOY-STEPS.md](DEPLOY-STEPS.md)** for the exact order (create BuildConfig → run build → then Deployment). The Deployment has an image stream trigger so it picks up the image from the ImageStream after the build. If the pod still can’t pull, set the image manually: `oc set image deployment/sovereign-cloud-website sovereign-cloud-website=$(oc get istag sovereign-cloud-website:latest -o jsonpath='{.image.dockerImageReference}')`.
 
 - **404 on refresh** — The site is static; nginx is configured so `/` serves `index.html`. Subpaths like `/deployment.html` work. If you use a different base path, adjust nginx config and rebuild.
 
