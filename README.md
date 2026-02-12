@@ -75,7 +75,7 @@ The solution uses a hub-and-spoke architecture integrating the following compone
 
 For a standard implementation, deploy a management cluster to act as the central hub:
 
-1. [Deploy Red Hat Advanced Cluster Management](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.15/html/install/index) on the management cluster to govern managed clusters.
+1. [Deploy Red Hat Advanced Cluster Management](docs/deploy-rhacm.md) on the management cluster to govern managed clusters.
 
 2. Implement Virtual Control Planes on the management cluster using Red Hat OpenShift Virtualization. Each managed cluster's control plane should run on its own dedicated virtual machine to isolate it from the data plane.
 
