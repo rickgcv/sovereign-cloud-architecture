@@ -1,0 +1,21 @@
+# Alternative Dockerfile using official nginx:alpine (if nginx-unprivileged causes issues)
+# Build context: repository root
+FROM nginx:1.25-alpine
+
+# Run as root only to set up; then switch to nginx
+USER root
+RUN rm -rf /usr/share/nginx/html/* /etc/nginx/conf.d/default.conf
+
+COPY website/nginx.conf /etc/nginx/conf.d/default.conf
+COPY website/ /usr/share/nginx/html/
+COPY images/sovereign-cloud-overview.png /usr/share/nginx/html/images/
+
+# nginx user (101:101 in alpine); make content readable by any UID for OpenShift
+RUN chown -R nginx:nginx /usr/share/nginx/html /etc/nginx/conf.d && \
+    chmod -R a+rX /usr/share/nginx/html && \
+    chmod a+r /etc/nginx/conf.d/default.conf
+
+USER nginx
+
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]

@@ -109,9 +109,19 @@ oc process -f openshift/template.yaml \
 
 ## Troubleshooting
 
-- **Build fails** — Ensure the cluster can reach the Git URI. For private repos, add a build secret and reference it in the BuildConfig.
+- **Pod crashing / CrashLoopBackOff** — Check the pod logs and events:
+  ```bash
+  oc logs deployment/sovereign-cloud-website --previous
+  oc describe pod -l app=sovereign-cloud-website
+  ```
+  Common causes: (1) Permission denied — the image is built with world-readable files and the deployment runs as UID 101; if your SCC rejects `runAsUser: 101`, remove the `securityContext.runAsUser` from the Deployment and rely on the image’s default user. (2) Wrong port — ensure the container listens on 8080 and the Service/Route target that port. (3) Probes too aggressive — the manifests use higher `initialDelaySeconds`; if the pod still fails, increase them further or temporarily remove the probes to confirm nginx starts.
+
+- **Build fails** — Ensure the cluster can reach the Git URI. For private repos, add a build secret and reference it in the BuildConfig. If the base image `nginxinc/nginx-unprivileged:1.25-alpine` cannot be pulled, use the alternative Dockerfile: in BuildConfig set `dockerStrategy.dockerfilePath` to `Dockerfile.nginx-alpine` and ensure the repo has that file (and update the nginx config for port 8080 if needed).
+
 - **ImagePullBackOff** — If the Deployment was created before the first build finished, the image may not exist yet. Wait for the build to complete or trigger a new build and wait for the rollout.
+
 - **404 on refresh** — The site is static; nginx is configured so `/` serves `index.html`. Subpaths like `/deployment.html` work. If you use a different base path, adjust nginx config and rebuild.
+
 - **Route not showing** — Confirm the Route is created: `oc get route`. If TLS is required by your cluster, the provided Route uses edge termination.
 
 ## Files in this directory

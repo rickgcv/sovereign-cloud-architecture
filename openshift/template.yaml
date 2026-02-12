@@ -66,6 +66,9 @@ objects:
           labels:
             app: ${APPLICATION_NAME}
         spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 101
           containers:
             - name: ${APPLICATION_NAME}
               image: ${APPLICATION_NAME}:latest
