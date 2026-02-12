@@ -1,96 +1,89 @@
 # Build a sovereign cloud
+
 Design and deploy a sovereign cloud platform to ensure control over data location, operational independence, and compliance with local regulations.
 
-## Detailed description
+---
 
-Digital sovereignty is based on the 4 pillars below:
+## Overview
 
-- **Technical Sovereignty** - Running workloads without dependence on a provider’s infrastructure or software, and protected from all extra-territorial interference and scrutiny.
+This solution enables you to build and operate a **sovereign cloud**—a platform where data location, operational control, and compliance stay in your hands. Digital sovereignty rests on four pillars:
 
-- **Operational sovereignty** – Visibility and control over provider operations from provisioning and performance management, to monitoring of physical and digital access, to the infrastructure. This solution leverages separation of control planes and data planes using virtualized control planes for each cluster.
+- **Technical sovereignty** — Run workloads without dependence on a provider’s infrastructure or software, and protect them from extra-territorial interference and scrutiny.
 
-- **Assurance sovereignty** – Ability to independently verify and assure the integrity, security, and reliability of digital systems and processes including resilience of critical services. This platform is highly available and resilient and allows to quickly move workloads to different locations. It also ensures integrity by creating a trusted software supply chain.
+- **Operational sovereignty** — Gain visibility and control over provider operations: provisioning, performance, and monitoring of physical and digital access. This architecture uses separation of control planes and data planes, with virtualized control planes per cluster.
 
-- **Data sovereignty** – Control data location and privacy to prevent unauthorized cross-border access. The platform implements this using Zero Trust security and confidential computing.
+- **Assurance sovereignty** — Independently verify and assure the integrity, security, and reliability of systems and processes, including resilience of critical services. The platform is highly available and resilient, supports moving workloads across locations, and builds a trusted software supply chain.
+
+- **Data sovereignty** — Control where data lives and who can access it, and prevent unauthorized cross-border access. The platform applies Zero Trust security and confidential computing to achieve this.
+
+---
 
 ## Key features
 
-This architecture describes and shows how to implement a platform to run workloads on heterogeneous infrastructure (on-premises, hybrid, or multi-cloud) while ensuring data remains within specific geographic and legal boundaries. It utilizes open source software to prevent vendor lock-in and implements multi-tenancy to ensure data isolation between customers and providers. The platform caters for the following use cases:
+### Sovereign Cluster as a Service
 
-1. **Sovereign Cluster as a Service**: Allow customers to deploy their clusters establishing a strict operational and physical boundary between the platform provider and the tenants. This helps achieve technical and operational sovereignty.
+Let customers deploy their own clusters with a strict operational and physical boundary between the platform provider and tenants. Supports technical and operational sovereignty.
 
-2. **Sovereign Virtual Machine as a Service**: Similar to the previous point but at the virtual machine level.
+### Sovereign Virtual Machine as a Service
 
-3. **Observability, auditability and cost control**: Implement and automate the tools and processes required to continuously audit, monitor, and prove the compliance of the sovereign platform from build-time to runtime, as well as giving customers total visibility about their spend. This helps achieve operational sovereignty.
-   
-4. **Technology and operational autonomy**: Implement controls to ensure the platform is operationally autonomous, resilient, and built from trusted, verifiable software components. This helps achieve technical and assurance sovereignty.
+The same sovereign boundaries and isolation at the virtual machine level, for VM-based tenant offerings.
 
-5. **Encrypted data control**: Implement advanced cryptographic controls for tenant clusters to ensure data confidentiality at-rest, in-use, and in transit. This helps achieve data sovereignty.
+### Observability, auditability, and cost control
+
+Implement and automate auditing, monitoring, and compliance from build-time to runtime, and give customers clear visibility of their spend. Supports operational sovereignty.
+
+### Technology and operational autonomy
+
+Keep the platform operationally autonomous, resilient, and built from trusted, verifiable software components. Supports technical and assurance sovereignty.
+
+### Encrypted data control
+
+Apply cryptographic controls so tenant data remains confidential at-rest, in-use, and in transit. Supports data sovereignty.
+
+---
 
 ## Architecture overview
 
-The solution uses a hub-and-spoke architecture integrating the following components:
+The solution uses a **hub-and-spoke architecture** that integrates the following components:
 
-- **Management platform** – Centralized cluster running automation and GitOps to manage the lifecycle of managed platforms.
+- **Management platform** — Centralized cluster running automation and GitOps to manage the lifecycle of managed platforms.
+- **Managed platform** — Red Hat OpenShift clusters where workloads run, with virtualized worker nodes.
+- **Virtual control planes** — Decoupled control planes on dedicated VMs in the management cluster for isolation.
+- **Attestation service** — Verifies that workloads run in a Trusted Execution Environment (TEE) so data in use is not visible to platform operators.
+- **Identity verification service** — Provides cryptographic identity for workloads and reduces reliance on shared secrets.
 
-- **Managed platform** – Standard Red Hat OpenShift clusters where workloads run, utilizing virtualized worker nodes.
+![Sovereign cloud architecture](images/sovereign-cloud-overview.png)
 
-- **Virtual control planes** – Decoupled control planes running on dedicated VMs within the management cluster for isolation.
+---
 
-- **Attestation service** – Verifies that workloads run in a Trusted Execution Environment (TEE) to guarantee data in use is not visible to platform operators.
+## Minimum requirements
 
-- **Identity verification service** – Provides cryptographic identity for workloads to eliminate shared secrets.
+| | |
+|--|--|
+| **Version** | 1.0 |
+| **Author** | Sovereign Cloud Architecture |
+| **Est. deployment time** | Varies by scale (management cluster, number of managed clusters, and automation maturity) |
+| **Estimated cost** | Infrastructure-dependent (bare metal, OpenShift subscriptions, and optional managed services) |
 
+### Hardware
 
-![Architecture](images/sovereign-cloud-overview.png)
+- **Bare metal compute nodes** — Required for worker nodes that run both VMs and containers. Major vendors (e.g. Dell, HP, IBM, Lenovo) are certified for these deployments.
+- **Trusted hardware** — Processors with support for Trusted Execution Environments (TEE) for confidential computing (e.g. AMD SEV-SNP or Intel SGX/TDX).
 
+### Software
 
-## Requirements
+- **Red Hat Enterprise Linux** — Base operating system for the sovereign cloud.
+- **Red Hat OpenShift Platform Plus** — Foundation for container and cluster management.
+- **Red Hat Advanced Cluster Management** — Lifecycle management of clusters.
+- **Red Hat OpenShift Virtualization** — Virtual machines for control planes and legacy workloads.
+- **Red Hat Workload Identity Manager**, **Red Hat Build of Trustee**, **OpenShift Sandboxed Containers** — Zero trust and confidential computing.
+- **Red Hat OpenShift GitOps** — Automated deployment and configuration management.
+- **Ansible Automation Platform** — Orchestration of infrastructure lifecycle automation.
 
-### Minimum hardware requirements
+---
 
-- **Bare metal compute nodes** – Required for worker nodes to support both VMs and containers. Major hardware providers like Dell, HP, IBM and Lenovo are certified for these deployments.
+## Deploy the solution
 
-- **Trusted hardware** – Processors with solutions supporting Trusted Execution Environments (TEE) for confidential computing, like AMD SEV-SNP or Intel SGX/TDX.
+Everything you need to deploy this sovereign cloud architecture is in the deployment guide. It covers cluster deployment strategy, disconnected environments, and Zero Trust implementation, with step-by-step links to detailed docs.
 
-### Minimum software requirements
-
-- **Red Hat Enterprise Linux** - Operating system that is the foundation of the sovereign cloud.
-
-- **Red Hat OpenShift Platform Plus** – Foundation for container and cluster management.
-
-- **Red Hat Advanced Cluster Management** – For lifecycle management of clusters.
-
-- **Red Hat OpenShift Virtualization** – To run virtual machines for control planes and legacy apps.
-
-- **Red Hat Workload Identity Manager**, **Red Hat Build of Trustee**, **OpenShift Sandboxed Containers** – To implement zero trust and confidfential computing concepts.
-
-- **Red Hat OpenShift GitOps** – For automated deployment and configuration management.
-
-- **Ansible Automation Platform** - To orchestrate all the automation flows for infrastructure lifecycle management.
-
-## Deployment
-
-**Cluster deployment strategy** 
-
-For a standard implementation, deploy a management cluster to act as the central hub:
-
-1. [Deploy Red Hat Advanced Cluster Management](docs/deploy-rhacm.md) on the management cluster to govern managed clusters.
-
-2. [Implement Virtual Control Planes](docs/deploy-virtual-control-planes.md) on the management cluster using Red Hat OpenShift Virtualization. Each managed cluster's control plane runs on its own dedicated virtual machine to isolate it from the data plane.
-
-3. [Deploy worker nodes on bare metal in the managed clusters](docs/deploy-bare-metal-workers-rhacm.md) to host the actual application workloads.
-
-4. [Create a User Defined Network (UDN)](https://github.com/rickgcv/sovereign-cloud-architecture/blob/main/docs/create-udn.md) per managed cluster to ensure network separation. 
-
-**Zero Trust concepts implementation**
-
-1. Set up the platform to be able to deploy [confidential containers](https://interact.redhat.com/share/wjZnZb2avHnp8k0hwjFe).
-2. [Install and configure Workload Identity Manager](docs/deploy-workload-identity-manager.md).
-3. [Deploy Red Hat Trusted Software Supply Chain](docs/deploy-trusted-software-supply-chain.md).
-
-
-
-
-
-
+**[Open deployment guide →](docs/deployment.md)**
