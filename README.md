@@ -86,7 +86,7 @@ For a standard implementation, deploy a management cluster to act as the central
 **Zero Trust concepts implementation**
 
 1. Set up the platform to be able to deploy [confidential containers](https://interact.redhat.com/share/wjZnZb2avHnp8k0hwjFe).
-2. Install and configure [Workload Identity Manager](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/security_and_compliance/zero-trust-workload-identity-manager).
+2. [Install and configure Workload Identity Manager](docs/deploy-workload-identity-manager.md).
 3. Deploy Red Hat Trusted Software Supply Chain.
 
 
