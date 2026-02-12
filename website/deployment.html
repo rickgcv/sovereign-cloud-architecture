@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deployment guide | Sovereign Cloud Architecture</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="site-logo">Sovereign Cloud Architecture</a>
+      <nav class="site-nav">
+        <a href="index.html">Solution</a>
+        <a href="deployment.html">Deployment</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <a href="index.html" class="back-link">← Back to solution</a>
+
+    <section class="hero">
+      <h1>Deploy the sovereign cloud solution</h1>
+      <p class="tagline">This page contains the full deployment guide for the sovereign cloud architecture. Follow the steps below in order for a standard implementation.</p>
+    </section>
+
+    <div class="deployment-steps">
+      <section class="section">
+        <h2>Cluster deployment strategy</h2>
+        <p>For a standard implementation, deploy a management cluster to act as the central hub:</p>
+        <ol class="step-list">
+          <li><a href="https://github.com/rickgcv/sovereign-cloud-architecture/blob/main/docs/deploy-rhacm.md" target="_blank" rel="noopener">Deploy Red Hat Advanced Cluster Management</a> on the management cluster to govern managed clusters.</li>
+          <li><a href="https://github.com/rickgcv/sovereign-cloud-architecture/blob/main/docs/deploy-virtual-control-planes.md" target="_blank" rel="noopener">Implement Virtual Control Planes</a> on the management cluster using Red Hat OpenShift Virtualization. Each managed cluster's control plane runs on its own dedicated virtual machine to isolate it from the data plane.</li>
+          <li><a href="https://github.com/rickgcv/sovereign-cloud-architecture/blob/main/docs/deploy-bare-metal-workers-rhacm.md" target="_blank" rel="noopener">Deploy worker nodes on bare metal in the managed clusters</a> to host the actual application workloads.</li>
+          <li><a href="https://github.com/rickgcv/sovereign-cloud-architecture/blob/main/docs/create-udn.md" target="_blank" rel="noopener">Create a User Defined Network (UDN)</a> per managed cluster to ensure network separation.</li>
+        </ol>
+      </section>
+
+      <section class="section">
+        <h2>Disconnected environments</h2>
+        <p>In the case of disconnected environments, deploy the management cluster as follows:</p>
+        <ol class="step-list">
+          <li>Establish a landing zone (low trust zone) with a bastion host.</li>
+          <li>Configure the bastion host with Red Hat Enterprise Linux and Ansible Core.</li>
+          <li>Use Ansible playbooks to mirror repositories from Red Hat Quay and bootstrap the management cluster deployment into the high trust zone.</li>
+        </ol>
+      </section>
+
+      <section class="section">
+        <h2>Zero Trust concepts implementation</h2>
+        <ol class="step-list">
+          <li>Set up the platform to be able to deploy <a href="https://interact.redhat.com/share/wjZnZb2avHnp8k0hwjFe" target="_blank" rel="noopener">confidential containers</a>.</li>
+          <li><a href="https://github.com/rickgcv/sovereign-cloud-architecture/blob/main/docs/deploy-workload-identity-manager.md" target="_blank" rel="noopener">Install and configure Workload Identity Manager</a>.</li>
+          <li><a href="https://github.com/rickgcv/sovereign-cloud-architecture/blob/main/docs/deploy-trusted-software-supply-chain.md" target="_blank" rel="noopener">Deploy Red Hat Trusted Software Supply Chain</a>.</li>
+        </ol>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    Sovereign Cloud Architecture — Open source solution for building sovereign cloud platforms.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,25 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: sovereign-cloud-website
+  labels:
+    app: sovereign-cloud-website
+spec:
+  runPolicy: Serial
+  source:
+    type: Git
+    git:
+      uri: https://github.com/rickgcv/sovereign-cloud-architecture.git
+      ref: main
+    contextDir: /
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+  output:
+    to:
+      kind: ImageStreamTag
+      name: sovereign-cloud-website:latest
+  resources: {}
+  postCommit: {}
+  nodeSelector: {}

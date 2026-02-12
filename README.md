@@ -87,3 +87,5 @@ The solution uses a **hub-and-spoke architecture** that integrates the following
 Everything you need to deploy this sovereign cloud architecture is in the deployment guide. It covers cluster deployment strategy, disconnected environments, and Zero Trust implementation, with step-by-step links to detailed docs.
 
 **[Open deployment guide →](docs/deployment.md)**
+
+**Web version:** You can serve this solution as an AWS-style web page (Overview, Benefits, Architecture, Requirements, Deployment) on OpenShift. See the [`website/`](website/) directory and [**openshift/README.md**](openshift/README.md) for building and deploying the static site to an OpenShift cluster.
